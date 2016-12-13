@@ -1,1 +1,8 @@
 # gavi_hopaverkefni
+
+
+* Accidental drug related deaths 2012-2015
+  https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015
+
+* Deaths in 122 US cities 1962-2016
+  https://catalog.data.gov/dataset/deaths-in-122-u-s-cities-1962-2016-122-cities-mortality-reporting-system
