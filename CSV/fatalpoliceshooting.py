@@ -1,5 +1,6 @@
 import csv
 import datetime
+
 file = open('./data/fatal_police_shootings.csv')
 
 dataStorage = csv.DictReader(file)
