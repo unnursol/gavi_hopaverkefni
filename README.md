@@ -9,3 +9,9 @@
 
 * Murders, violent crime rate and property crime rate 2005-present 
   https://catalog.data.gov/dataset/murders-violent-crime-rate-and-property-crime-rate-2005-present
+  
+* Moon-phases 1970-2015
+  http://www.somacon.com/p570.php
+  
+* Crimes from 2001-present
+  https://catalog.data.gov/dataset/crimes-2001-to-present-398a4
