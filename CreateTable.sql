@@ -28,3 +28,14 @@ Create table fatalPoliceShootings (
 	city varchar(250),
 	primary key(id)
 );
+
+create table drugDeaths (
+    id serial,
+    time int,
+    sex varchar(20),
+    age varchar(20),
+    race varchar(250),
+    cause varchar(250),
+    deathcity varchar(250),
+    primary key (id)
+);
