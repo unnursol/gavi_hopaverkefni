@@ -90,3 +90,6 @@ ENV/
 
 #SQL insert skipanir
 Data/*.sql
+
+#CSV files
+CSV/*
