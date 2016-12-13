@@ -1,6 +1,6 @@
 import csv
 import datetime
-impor h
+
 file = open('./data/fatal_police_shootings.csv')
 
 dataStorage = csv.DictReader(file)
@@ -10,6 +10,9 @@ for i in dataStorage:
     data.append(i)
 
 file.close()
+
+for i in data:
+	i['city'].replace("'","")
 
 outfile = open('insertstatementsForFatalPoliceShootings.sql', 'w')
 
