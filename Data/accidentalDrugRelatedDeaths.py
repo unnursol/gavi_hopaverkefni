@@ -1,6 +1,6 @@
 import csv
 import datetime
-file = open('Data\Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
+file = open('CSV\Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
 dataStorage = csv.DictReader(file)
 

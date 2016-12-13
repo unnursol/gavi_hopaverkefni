@@ -1,6 +1,6 @@
 import csv
 import datetime
-file = open('./data/911.csv')
+file = open('./CSV/911.csv')
 
 dataStorage = csv.DictReader(file)
 
