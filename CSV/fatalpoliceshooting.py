@@ -10,6 +10,9 @@ for i in dataStorage:
 
 file.close()
 
+for i in data:
+	i['city'].replace("'","")
+
 outfile = open('insertstatementsForFatalPoliceShootings.sql', 'w')
 
 for i in data:
