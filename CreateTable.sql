@@ -19,3 +19,12 @@ create table emergencyCalls (
 	address varchar(250),
 	primary key (id)
 );
+
+Create table fatalPoliceShootings (
+	id serial,
+	time int,
+	causeOfDeath varchar(250),
+	state varchar(250),
+	city varchar(250),
+	primary key(id)
+);
