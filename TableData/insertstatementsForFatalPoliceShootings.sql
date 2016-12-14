@@ -1233,7 +1233,7 @@ insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (14589
 insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1458950400, 'shot', 'VA', 'Grundy');
 insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1458950400, 'shot', 'SC', 'Myrtle Beach');
 insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1458950400, 'shot', 'FL', 'Tampa');
-insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1459036800, 'shot', 'MO', 'Lee's Summit');
+insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1459036800, 'shot', 'MO', 'Lees Summit');
 insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1459036800, 'shot', 'AZ', 'Winslow');
 insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1459036800, 'shot', 'NM', 'Roswell');
 insert into fatalPoliceShootings (time, causeOfDeath, state, city) values (1459036800, 'shot', 'NC', 'Kinston');
