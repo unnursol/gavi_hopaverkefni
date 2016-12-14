@@ -1,6 +1,7 @@
 import csv
+import datetime
 
-file = open('moon-phases-1970-2015-America_New_York.csv')
+file = open('moon-phases-1970-2016-America_New_York.csv')
 
 dataStoreage = csv.DictReader(file)
 
@@ -13,6 +14,6 @@ file.close()
 outfile = open('insertstatementsForSunAndMoon.sql', 'w')
 
 for i in data:
-	outfile.write("insert into moons (phase, time) values ('{}', {});\n".format(i['phase'], i['timestamp']))
+	outfile.write("insert into moons (phase, time) values ('{}', '{}');\n".format(i['phase'], datetime.datetime.fromtimestamp(int(i['timestamp'])).strftime('%d/%m/%Y')))
 
 outfile.close()

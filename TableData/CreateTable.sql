@@ -1,7 +1,7 @@
 create table moons (
 	id serial,
 	phase varchar (250),
-	time int,
+	time timestamp(6),
 	primary key (id)
 );
 
