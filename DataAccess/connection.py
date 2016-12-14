@@ -3,9 +3,10 @@ import getpass
 
 host = 'localhost'
 dbname = input('Database name: ')
-
 username = input('User name for {}.{}: '.format(host,dbname))
-pw = getpass.getpass()
+
+#pw = getpass.getpass()
+pw = input('pw: ')
 
 conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(host, dbname, username, pw)
 
