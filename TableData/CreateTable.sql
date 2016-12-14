@@ -6,11 +6,11 @@ create table moons (
 );
 
 create table crimes (
- id serial,
- time int,
- offense_id int references offenses(id),
- method varchar (50),
- primary key (id)
+	id serial,
+	time int,
+	offense_id int references offenses(id),
+	method varchar (50),
+	primary key (id)
 );
 
 create table emergencyCalls (
@@ -32,8 +32,8 @@ Create table fatalPoliceShootings (
 create table drugDeaths (
     id serial,
     time int,
-    sex varchar(20),
-    age varchar(20),
+    sex varchar(50),
+    age int,
     race varchar(250),
     cause varchar(250),
     city_id int references cities(id),
