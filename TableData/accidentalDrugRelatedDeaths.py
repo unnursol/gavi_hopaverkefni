@@ -1,6 +1,6 @@
 import csv
 import datetime
-file = open('CSV\Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
+file = open('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
 dataStorage = csv.DictReader(file)
 
@@ -18,6 +18,6 @@ for i in data:
 outfile = open('insertstatementsForAccidentalDrugRelatedDeaths.sql', 'w')
 
 for i in data:
-	outfile.write("insert into drugDeaths (time, sex, age, race, cause, deathcity) values ({}, '{}', '{}', '{}', '{}', '{}');\n".format(int(datetime.datetime.strptime(i['Date'], "%m/%d/%Y").timestamp()), i['Sex'], i['Age'], i['Race'], i['ImmediateCauseA'], i['Death City']))
+	outfile.write("insert into drugDeaths (time, sex, age, race, cause, deathcity) values ('{}', '{}', '{}', '{}', '{}', '{}');\n".format(str(i['Date']), i['Sex'], i['Age'], i['Race'], i['ImmediateCauseA'], i['Death City']))
 
 outfile.close()
