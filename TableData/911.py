@@ -1,6 +1,6 @@
 import csv
 import datetime
-file = open('./CSV/911.csv')
+file = open('911.csv')
 
 dataStorage = csv.DictReader(file)
 
@@ -13,6 +13,6 @@ file.close()
 outfile = open('insertstatementsFor911Calls.sql', 'w')
 
 for i in data:
-    outfile.write("insert into emergencyCalls (time, address) values ({}, '{}');\n".format(int(datetime.datetime.strptime(i['timeStamp'], "%Y-%m-%d %H:%M:%S").timestamp()), i['addr'] ))
+    outfile.write("insert into emergencyCalls (time, address) values ('{}', '{}');\n".format(str(i['timeStamp']).replace('-', '/').split()[0], i['addr'] ))
 
 outfile.close()
