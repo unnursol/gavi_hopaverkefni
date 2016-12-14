@@ -1,4 +1,4 @@
-# gavi_hopaverkefni
+# Gagnavinnsla Hópaverkefni
 
 
 * Accidental drug related deaths 2012-2015
