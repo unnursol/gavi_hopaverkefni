@@ -1,6 +1,7 @@
 # Gagnavinnsla Hópaverkefni
 
 
+# Gögnin okkar í CSV skrám
 * Accidental drug related deaths 2012-2015
   https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015
 
