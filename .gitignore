@@ -89,7 +89,8 @@ ENV/
 .ropeproject
 
 #SQL insert skipanir
-Data/*.sql
+TableData/*.sql
+!TableData/CreateTable.sql
 
 #CSV files
 CSV/*
