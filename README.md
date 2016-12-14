@@ -15,3 +15,9 @@
   
 * Crimes from 2001-present
   https://catalog.data.gov/dataset/crimes-2001-to-present-398a4
+  
+* 911 Calls
+  https://www.kaggle.com/mchirico/montcoalert
+  
+* Fatal police shootings
+  https://www.kaggle.com/washingtonpost/police-shootings
