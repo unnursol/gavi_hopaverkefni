@@ -120,7 +120,7 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
         time = '/'.join(newDate)
         cit_id = city_id[ i['Death City'] ]
         sex = i['Sex']
-        age = float(i['Age'])
+        age = i['Age']
         race = i['Race']
         cause = i['ImmediateCauseA']
         values.append((time, sex, age, race, cause, cit_id))
@@ -137,7 +137,7 @@ city_id = helper_functions.getIds('cities', cursor)
 #insertToMoons(moons)
 #insertToCrimes(crimes, offense_id)
 #insertToEmergencyCalls(emergencyCalls)
-insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
+#insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
 insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 
 conn.commit()

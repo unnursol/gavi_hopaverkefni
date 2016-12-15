@@ -44,7 +44,7 @@ create table drugDeaths (
     id serial,
     time timestamp,
     sex varchar(50),
-    age int,
+    age varchar(5),
     race varchar(250),
     cause varchar(250),
     city_id int references cities(id),
