@@ -80,7 +80,7 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     conn.commit()
 
 #-------------------------------- Cities ------------------------------------
-def insertToCities(fatalPoliceShootings, drugRelatedDeaths):
+def insertToCities(fatalPoliceShootings, drugRelatedDeath):
     insertstring = "insert into cities(city) values "
     cities = set()
     for i in fatalPoliceShootings:
