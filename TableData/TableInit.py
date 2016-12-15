@@ -27,11 +27,10 @@ def insertToMoons(sunAndMoon):
 #                                 Crimes
 #----------------------------------------------------------------------------
 def insertToCrimes(crimes, offense_id):
-    insertstring = "insert into crimes (time, offense_id, method) values"
+    insertstring = "insert into crimes (time, offense_id) values"
     values = []
     for i in crimes:
         off_id = offense_id[ i['Primary Type'] ]
-        method = 'method'
         time = str(i['Date']).replace('-', '/').split()[0]
         values.append((time, off_id, method))
 
@@ -90,8 +89,8 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeath):
 
     list(cities)
 
-    args_str = b','.join(cursor.mogrify("(%s)", x) for x in cities)
-    cursor.execute(insertstring + args_str.decode('utf-8'))
+    for i in cities:
+        cursor.execute(insertstring, [i])
     conn.commit()
 
 #----------------------------------------------------------------------------

@@ -21,7 +21,6 @@ create table crimes (
 	id serial,
 	time timestamp,
 	offense_id int references offenses(id),
-	method varchar (50),
 	primary key (id)
 );
 
