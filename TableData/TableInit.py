@@ -1,7 +1,7 @@
 import datetime
 import connection
-import helper_functions
-from helper_functions import fixCities
+from HelperFunctions import fixCities
+import HelperFunctions
 
 cursor, conn = connection.connectToDatabase()
 moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
@@ -9,7 +9,6 @@ crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
 emergencyCalls = connection.readFromFile('911.csv')
 fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
-
 
 
 #----------------------------------------------------------------------------
@@ -40,7 +39,6 @@ def insertToCrimes(crimes, offense_id):
         newDate.append(date[0])
         newDate.append(date[2])
         time = '/'.join(newDate)
-        #time = str(i['Date']).replace('-', '/').split()[0]
         values.append((time, off_id))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
@@ -140,14 +138,13 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
 
 insertToOffenses(crimes)
 insertToCities(fatalPoliceShootings, drugRelatedDeaths)
-city_id = helper_functions.getIds('cities', cursor)
-offense_id = helper_functions.getIds('offenses', cursor)
+city_id = HelperFunctions.getIds('cities', cursor)
+offense_id = HelperFunctions.getIds('offenses', cursor)
 
 insertToMoons(moons)
 insertToCrimes(crimes, offense_id)
 insertToEmergencyCalls(emergencyCalls)
 insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
-city_id = helper_functions.getIds('cities', cursor)
 insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 
 conn.commit()
