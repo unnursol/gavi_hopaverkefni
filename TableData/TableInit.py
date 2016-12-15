@@ -13,7 +13,6 @@ insertToMoons(moons)
 insertToOffenses(crimes)
 insertToCrimes(crimes)
 
-
 #----------------------------------------------------------------------------
 #                              Moon Phases
 #----------------------------------------------------------------------------
@@ -59,7 +58,7 @@ def insertToCrimes(crimes):
         time = int(datetime.datetime.strptime(i['Date'], "%m/%d/%Y %I:%M:%S %p").timestamp())
         values.append((time, off_id, method))
 
-    args_str = b','.join(cursor.mogrify("(%s,%s, %s)", x) for x in values)
+    args_str = b','.join(cursor.mogrify("(%s,%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
@@ -83,34 +82,67 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeaths):
     cities = set()
     for i in fatalPoliceShootings:
         cities.add(i['city'])
-
     for i in drugRelatedDeath:
         cities.add(i['Death City'])
 
     list(cities)
-
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in cities)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
+def insertToFatalPoliceShootings(fatalPoliceShootings):
+    select = "select * from cites;"
+    cursor.execute(select)
+    records = cursor.fetchall()
 
-insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city) values "
-values = []
-for i in fatalPoliceShootings:
-    outfile.write("insert into fatalPoliceShootings (time, causeOfDeath, state, city_id) values ({}, '{}', '{}', '{}');\n".format(int(datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp()), i['manner_of_death'], i['state'], cit_id ))
+    city_id = {}
+    for i in records:
+        city_id[i[1]] = i[0]
 
+    insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city_id) values "
+    values = []
+    for i in fatalPoliceShootings:
+        cit_id = city_id[ i['city'] ]
+        time = int(datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp())
+        causeOfDeath = i['manner_of_death']
+        state = i['state']
+        values.append((time, causeOfDeath, state, cit_id))
+
+    args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s)", x) for x in values)
+    cursor.execute(insertstring + args_str.decode('utf-8'))
+    conn.commit()
 
 #----------------------------------------------------------------------------
 #                             Drug related deaths
 #----------------------------------------------------------------------------
-for i in drugRelatedDeaths:
-	if i['Date'] is '':
-		drugRelatedDeaths.remove(i)
 
-insertstring = "insert into drugDeaths (time, sex, age, race, cause, deathcity) values "
-values = []
-for i in drugRelatedDeaths:
-	outfile.write("insert into drugDeaths (time, sex, age, race, cause, deathcity) values ('{}', '{}', '{}', '{}', '{}', '{}');\n".format(str(i['Date']), i['Sex'], i['Age'], i['Race'], i['ImmediateCauseA'], i['Death City']))
+def insertToDrugRelatedDeaths(drugRelatedDeaths):
+    select = "select * from cites;"
+    cursor.execute(select)
+    records = cursor.fetchall()
+
+    city_id = {}
+    for i in records:
+        city_id[i[1]] = i[0]
+
+    for i in drugRelatedDeaths:
+    	if i['Date'] is '':
+    		drugRelatedDeaths.remove(i)
+
+    insertstring = "insert into drugDeaths (time, sex, age, race, cause, city_id) values "
+    values = []
+    for i in drugRelatedDeaths:
+        time = str(i['Date'])
+        cit_id = city_id[ i['Death City'] ]
+        sex = i['Sex']
+        age = i['Age']
+        race = i['Race']
+        cause = i['ImmediateCauseA']
+        values.append((time, sex, age, race, cause, cit_id))
+
+    args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)
+    cursor.execute(insertstring + args_str.decode('utf-8'))
+    conn.commit()
 
 conn.commit()
 cursor.close()
