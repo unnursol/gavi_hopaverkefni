@@ -1,6 +1,6 @@
 # Gagnavinnsla Hópaverkefni
 
-![picture alt](http://www.brightlightpictures.com/assets/images/portfolio/thethaw_header.jpg "Title is optional")
+![picture alt](http://www.wheniscalendars.com/wp-content/uploads/2015/05/Full-Moon.jpg "Full Moon")
 
 ### Gögnin okkar í CSV skrám
 * Accidental drug related deaths 2012-2015
