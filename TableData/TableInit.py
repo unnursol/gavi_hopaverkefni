@@ -32,10 +32,16 @@ def insertToCrimes(crimes, offense_id):
     values = []
     for i in crimes:
         off_id = offense_id[ i['Primary Type'] ]
-        time = str(i['Date']).replace('-', '/').split()[0]
-        values.append((time, off_id, method))
+        date = str(i['Date']).split()[0].split('/')
+        newDate = []
+        newDate.append(date[1])
+        newDate.append(date[0])
+        newDate.append(date[2])
+        time = '/'.join(newDate)
+        #time = str(i['Date']).replace('-', '/').split()[0]
+        values.append((time, off_id))
 
-    args_str = b','.join(cursor.mogrify("(%s,%s,%s)", x) for x in values)
+    args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
@@ -119,12 +125,12 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths):
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
-insertToOffenses(crimes)
-insertToCities(fatalPoliceShootings, drugRelatedDeaths)
+#insertToOffenses(crimes)
+#insertToCities(fatalPoliceShootings, drugRelatedDeaths)
 city_id = helper_functions.getIds('cities', cursor)
 offense_id = helper_functions.getIds('offenses', cursor)
 
-insertToMoons(moons)
+#insertToMoons(moons)
 insertToCrimes(crimes, offense_id)
 insertToEmergencyCalls(emergencyCalls)
 insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
