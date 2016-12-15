@@ -1,6 +1,7 @@
 # Gagnavinnsla Hópaverkefni
 
 ![picture alt](http://www.wheniscalendars.com/wp-content/uploads/2015/05/Full-Moon.jpg "Full Moon")
+*Auður, Jóhanna, Sigrún og Unnur*
 
 ### Gögnin okkar í CSV skrám
 * Accidental drug related deaths 2012-2015
