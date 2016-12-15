@@ -78,16 +78,27 @@ def insertToEmergencyCalls(emergencyCalls):
 #----------------------------------------------------------------------------
 #                           Fatal police shootings
 #----------------------------------------------------------------------------
-def insertToCities(fatalPoliceShootings, drugRelatedDeaths)
-    insertstring = "insert into cities(city) values (%s);"
+def insertToCities(fatalPoliceShootings, drugRelatedDeaths):
+    insertstring = "insert into cities(city) values ;"
     cities = set()
     for i in fatalPoliceShootings:
         cities.add(i['city'])
+
+    for i in drugRelatedDeath:
+        cities.add(i['Death City'])
+
+    list(cities)
+
+    args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in cities)
+    cursor.execute(insertstring + args_str.decode('utf-8'))
+    conn.commit()
+
 
 insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city) values "
 values = []
 for i in fatalPoliceShootings:
     outfile.write("insert into fatalPoliceShootings (time, causeOfDeath, state, city_id) values ({}, '{}', '{}', '{}');\n".format(int(datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp()), i['manner_of_death'], i['state'], cit_id ))
+
 
 #----------------------------------------------------------------------------
 #                             Drug related deaths

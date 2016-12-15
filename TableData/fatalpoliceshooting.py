@@ -1,7 +1,7 @@
 import csv
 import datetime
 
-file = open('./data/fatal_police_shootings.csv')
+file = open('database.csv')
 
 dataStorage = csv.DictReader(file)
 
@@ -17,6 +17,6 @@ for i in data:
 outfile = open('insertstatementsForFatalPoliceShootings.sql', 'w')
 
 for i in data:
-    outfile.write("insert into fatalPoliceShootings (time, causeOfDeath, state, city) values ({}, '{}', '{}', '{}');\n".format(int(datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp()), i['manner_of_death'], i['state'], i['city'] ))
+    outfile.write("insert into fatalPoliceShootings (time, causeOfDeath, state, city) values ('{}', '{}', '{}', '{}');\n".format(i['date'].replace('-', '/'), i['manner_of_death'], i['state'], i['city'] ))
 
 outfile.close()
