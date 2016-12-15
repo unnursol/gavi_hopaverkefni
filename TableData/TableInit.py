@@ -1,13 +1,14 @@
 import datetime
 import connection
 import helper_functions
+from helper_functions import fixCities
 
 cursor, conn = connection.connectToDatabase()
-#moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
-#crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
-#mergencyCalls = connection.readFromFile('911.csv')
+moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
+crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
+emergencyCalls = connection.readFromFile('911.csv')
 fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
-#drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
+drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
 
 
@@ -77,7 +78,8 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city_id) values "
     values = []
     for i in fatalPoliceShootings:
-        cit_id = city_id[ i['city'] ]
+        tmp  = fixCities(i['city'])
+        cit_id = city_id[ tmp ]
         time = str(i['date'])
         causeOfDeath = i['manner_of_death']
         state = i['state']
@@ -92,9 +94,11 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeath):
     insertstring = "insert into cities(city) values (%s);"
     cities = set()
     for i in fatalPoliceShootings:
-        cities.add(i['city'])
+        tmp  = fixCities(i['city'])
+        cities.add(tmp)
     for i in drugRelatedDeath:
-        cities.add(i['Death City'])
+        tmp  = fixCities(i['Death City'])
+        cities.add(tmp)
 
     list(cities)
 
@@ -121,7 +125,8 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
         newDate.append(date[0])
         newDate.append(date[2])
         time = '/'.join(newDate)
-        cit_id = city_id[ i['Death City'] ]
+        tmp  = fixCities(i['Death City'])
+        cit_id = city_id[ tmp ]
         sex = i['Sex']
         age = i['Age']
         race = i['Race']
@@ -133,7 +138,7 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
-"""insertToOffenses(crimes)
+insertToOffenses(crimes)
 insertToCities(fatalPoliceShootings, drugRelatedDeaths)
 city_id = helper_functions.getIds('cities', cursor)
 offense_id = helper_functions.getIds('offenses', cursor)
@@ -141,7 +146,7 @@ offense_id = helper_functions.getIds('offenses', cursor)
 insertToMoons(moons)
 insertToCrimes(crimes, offense_id)
 insertToEmergencyCalls(emergencyCalls)
-insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)"""
+insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
 city_id = helper_functions.getIds('cities', cursor)
 insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 

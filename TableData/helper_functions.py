@@ -8,3 +8,6 @@ def getIds (table, cursor):
     for i in records:
         id_dict[i[1]] = i[0]
     return id_dict
+
+def fixCities (s):
+    return s.lower().title();
