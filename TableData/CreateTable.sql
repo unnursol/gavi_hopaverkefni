@@ -26,14 +26,14 @@ create table crimes (
 
 create table emergencyCalls (
 	id serial,
-	time int,
+	time timestamp,
 	address varchar(250),
 	primary key (id)
 );
 
 Create table fatalPoliceShootings (
 	id serial,
-	time int,
+	time timestamp,
 	causeOfDeath varchar(250),
 	state varchar(250),
 	city_id int references cities(id),
@@ -42,7 +42,7 @@ Create table fatalPoliceShootings (
 
 create table drugDeaths (
     id serial,
-    time int,
+    time timestamp,
     sex varchar(50),
     age int,
     race varchar(250),
