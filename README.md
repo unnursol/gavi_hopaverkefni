@@ -1,4 +1,4 @@
-# Gagnavinnsla Hópaverkefni
+# Gagnavinnsla Hópaverkefni - Fullt tungl#
 #### *Auður, Jóhanna, Sigrún og Unnur* ####
 
 ![picture alt](http://www.wheniscalendars.com/wp-content/uploads/2015/05/Full-Moon.jpg "Full Moon")
