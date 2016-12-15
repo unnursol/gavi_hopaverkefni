@@ -91,7 +91,7 @@ ENV/
 #SQL insert skipanir
 TableData/*.sql
 !TableData/CreateTable.sql
-
+!TableData/selectCommands.sql
 #CSV files
 CSV/*
 TableData/*.csv
