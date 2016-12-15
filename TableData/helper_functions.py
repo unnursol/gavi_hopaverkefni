@@ -1,6 +1,6 @@
 # Returns dictionary from table with table ID as a value and
 # table data as value.
-def getIds (table):
+def getIds (table, cursor):
     select = "select * from " + table + ";"
     cursor.execute(select)
     records = cursor.fetchall()

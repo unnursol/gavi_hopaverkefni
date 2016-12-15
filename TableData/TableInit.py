@@ -9,16 +9,9 @@ emergencyCalls = connection.readFromFile('911.csv')
 fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
-city_id = helper_functions.getIds('cities')
-offense_id = helper_functions.getIds('offenses')
+city_id = helper_functions.getIds('cities', cursor)
+offense_id = helper_functions.getIds('offenses', cursor)
 
-insertToMoons(moons)
-insertToOffenses(crimes)
-insertToCrimes(crimes, offense_id)
-insertToCities(fatalPoliceShootings, drugRelatedDeaths)
-insertToEmergencyCalls(emergencyCalls)
-insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
-insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 
 #----------------------------------------------------------------------------
 #                              Moon Phases
@@ -27,7 +20,7 @@ def insertToMoons(sunAndMoon):
     insertstring = "insert into moons (phase, time) values "
     values = []
     for i in sunAndMoon:
-        values.append(i['phase'], datetime.datetime.fromtimestamp(int(i['timestamp'])).strftime('%d/%m/%Y'))
+        values.append((i['phase'], datetime.datetime.fromtimestamp(int(i['timestamp'])).strftime('%d/%m/%Y')))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
@@ -42,7 +35,7 @@ def insertToCrimes(crimes, offense_id):
     for i in crimes:
         off_id = offense_id[ i['Primary Type'] ]
         method = 'method'
-        time = str(i['Date']).replace('-', '/').split()[0])
+        time = str(i['Date']).replace('-', '/').split()[0]
         values.append((time, off_id, method))
 
     args_str = b','.join(cursor.mogrify("(%s,%s,%s)", x) for x in values)
@@ -128,6 +121,17 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths):
     args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
+
+
+
+
+insertToMoons(moons)
+insertToOffenses(crimes)
+insertToCrimes(crimes, offense_id)
+insertToCities(fatalPoliceShootings, drugRelatedDeaths)
+insertToEmergencyCalls(emergencyCalls)
+insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
+insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 
 conn.commit()
 cursor.close()
