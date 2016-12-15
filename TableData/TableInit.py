@@ -3,8 +3,8 @@ import connection
 import helper_functions
 
 cursor, conn = connection.connectToDatabase()
-moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
-crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
+#moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
+#crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
 emergencyCalls = connection.readFromFile('911.csv')
 fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
@@ -62,7 +62,7 @@ def insertToEmergencyCalls(emergencyCalls):
     insertstring = "insert into emergencyCalls (time, address) values "
     values = []
     for i in emergencyCalls:
-        values.append(str(i['timeStamp']).replace('-', '/').split()[0], i['addr'] )
+        values.append((str(i['timeStamp']).replace('-', '/').split()[0], i['addr'] ))
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
@@ -103,7 +103,7 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeath):
 #                             Drug related deaths
 #----------------------------------------------------------------------------
 
-def insertToDrugRelatedDeaths(drugRelatedDeaths):
+def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
 
     for i in drugRelatedDeaths:
     	if i['Date'] is '':
@@ -112,10 +112,15 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths):
     insertstring = "insert into drugDeaths (time, sex, age, race, cause, city_id) values "
     values = []
     for i in drugRelatedDeaths:
-        time = str(i['Date'])
+        date = str(i['Date']).split('/')
+        newDate = []
+        newDate.append(date[1])
+        newDate.append(date[0])
+        newDate.append(date[2])
+        time = '/'.join(newDate)
         cit_id = city_id[ i['Death City'] ]
         sex = i['Sex']
-        age = i['Age']
+        age = float(i['Age'])
         race = i['Race']
         cause = i['ImmediateCauseA']
         values.append((time, sex, age, race, cause, cit_id))
@@ -127,11 +132,11 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths):
 #insertToOffenses(crimes)
 #insertToCities(fatalPoliceShootings, drugRelatedDeaths)
 city_id = helper_functions.getIds('cities', cursor)
-offense_id = helper_functions.getIds('offenses', cursor)
+#offense_id = helper_functions.getIds('offenses', cursor)
 
 #insertToMoons(moons)
-insertToCrimes(crimes, offense_id)
-insertToEmergencyCalls(emergencyCalls)
+#insertToCrimes(crimes, offense_id)
+#insertToEmergencyCalls(emergencyCalls)
 insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
 insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 
