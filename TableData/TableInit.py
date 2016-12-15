@@ -1,6 +1,6 @@
 import datetime
 import connection
-import helper_functions
+import HelperFunctions
 
 cursor, conn = connection.connectToDatabase()
 moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
@@ -133,8 +133,8 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
 
 insertToOffenses(crimes)
 insertToCities(fatalPoliceShootings, drugRelatedDeaths)
-city_id = helper_functions.getIds('cities', cursor)
-offense_id = helper_functions.getIds('offenses', cursor)
+city_id = HelperFunctions.getIds('cities', cursor)
+offense_id = HelperFunctions.getIds('offenses', cursor)
 
 insertToMoons(moons)
 insertToCrimes(crimes, offense_id)
