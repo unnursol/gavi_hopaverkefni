@@ -80,7 +80,7 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
 
 #-------------------------------- Cities ------------------------------------
 def insertToCities(fatalPoliceShootings, drugRelatedDeath):
-    insertstring = "insert into cities(city) values "
+    insertstring = "insert into cities(city) values (%s);"
     cities = set()
     for i in fatalPoliceShootings:
         cities.add(i['city'])
