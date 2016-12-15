@@ -9,9 +9,6 @@ emergencyCalls = connection.readFromFile('911.csv')
 fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
-city_id = helper_functions.getIds('cities', cursor)
-offense_id = helper_functions.getIds('offenses', cursor)
-
 
 #----------------------------------------------------------------------------
 #                              Moon Phases
@@ -122,13 +119,13 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths):
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
-
-
+insertToOffenses(crimes)
+insertToCities(fatalPoliceShootings, drugRelatedDeaths)
+city_id = helper_functions.getIds('cities', cursor)
+offense_id = helper_functions.getIds('offenses', cursor)
 
 insertToMoons(moons)
-insertToOffenses(crimes)
 insertToCrimes(crimes, offense_id)
-insertToCities(fatalPoliceShootings, drugRelatedDeaths)
 insertToEmergencyCalls(emergencyCalls)
 insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
 insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
