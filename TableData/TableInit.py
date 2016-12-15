@@ -6,7 +6,7 @@ cursor, conn = connection.connectToDatabase()
 #moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
 #crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
 emergencyCalls = connection.readFromFile('911.csv')
-fatalPoliceShootings = connection.readFromFile('database.csv')
+fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
 
@@ -38,7 +38,6 @@ def insertToCrimes(crimes, offense_id):
         newDate.append(date[0])
         newDate.append(date[2])
         time = '/'.join(newDate)
-        #time = str(i['Date']).replace('-', '/').split()[0]
         values.append((time, off_id))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
@@ -77,7 +76,7 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     values = []
     for i in fatalPoliceShootings:
         cit_id = city_id[ i['city'] ]
-        time = int(datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp())
+        time = datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp()
         causeOfDeath = i['manner_of_death']
         state = i['state']
         values.append((time, causeOfDeath, state, cit_id))
