@@ -20,7 +20,7 @@ def insertToMoons(sunAndMoon):
     insertstring = "insert into moons (phase, time) values "
     values = []
     for i in sunAndMoon:
-        values.append((i['phase'], i['timestamp']))
+        values.append(i['phase'], datetime.datetime.fromtimestamp(int(i['timestamp'])).strftime('%d/%m/%Y'))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
@@ -55,7 +55,7 @@ def insertToCrimes(crimes):
     for i in crimes:
         off_id = offense_id[ i['Primary Type'] ]
         method = 'method'
-        time = int(datetime.datetime.strptime(i['Date'], "%m/%d/%Y %I:%M:%S %p").timestamp())
+        time = str(i['Date']).replace('-', '/').split()[0])
         values.append((time, off_id, method))
 
     args_str = b','.join(cursor.mogrify("(%s,%s,%s)", x) for x in values)
@@ -69,7 +69,7 @@ def insertToEmergencyCalls(emergencyCalls):
     insertstring = "insert into emergencyCalls (time, address) values "
     values = []
     for i in emergencyCalls:
-        values.append((int(datetime.datetime.strptime(i['timeStamp'], "%Y-%m-%d %H:%M:%S").timestamp()), i['addr'] ))
+        values.append(str(i['timeStamp']).replace('-', '/').split()[0], i['addr'] )
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
@@ -78,7 +78,7 @@ def insertToEmergencyCalls(emergencyCalls):
 #                           Fatal police shootings
 #----------------------------------------------------------------------------
 def insertToCities(fatalPoliceShootings, drugRelatedDeaths):
-    insertstring = "insert into cities(city) values ;"
+    insertstring = "insert into cities(city) values "
     cities = set()
     for i in fatalPoliceShootings:
         cities.add(i['city'])
@@ -86,7 +86,8 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeaths):
         cities.add(i['Death City'])
 
     list(cities)
-    args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in cities)
+
+    args_str = b','.join(cursor.mogrify("(%s)", x) for x in cities)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
