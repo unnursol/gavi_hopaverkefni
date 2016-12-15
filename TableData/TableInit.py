@@ -6,8 +6,9 @@ cursor, conn = connection.connectToDatabase()
 moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
 crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
 emergencyCalls = connection.readFromFile('911.csv')
-fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
+fatalPoliceShootings = connection.readFromFile('database.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
+
 
 
 #----------------------------------------------------------------------------

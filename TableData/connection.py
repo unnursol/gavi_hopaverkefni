@@ -6,9 +6,14 @@ import datetime
 def readFromFile(filename):
     file = open(filename)
     dataStoreage = csv.DictReader(file)
+    print("reading: " + filename)
     data = []
+    counter = 0
     for x in dataStoreage:
-    	data.append(x)
+        counter +=1
+        data.append(x)
+        if counter > 2000000:
+            break
     file.close()
     return data
 
@@ -16,7 +21,7 @@ def connectToDatabase():
     host = 'localhost'
     #dbname = input('Database name: ')
     #username = input('User name for {}.{}: '.format(host,dbname))
-    dbname = 'moonproject'
+    dbname = 'moondata'
     username = 'postgres'
     pw = 'postgres'
 
