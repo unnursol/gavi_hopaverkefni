@@ -3,12 +3,11 @@ import connection
 import helper_functions
 
 cursor, conn = connection.connectToDatabase()
-#moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
-#crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
+moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
+crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
 emergencyCalls = connection.readFromFile('911.csv')
 fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
-
 
 
 #----------------------------------------------------------------------------
@@ -21,6 +20,7 @@ def insertToMoons(sunAndMoon):
         values.append((i['phase'], datetime.datetime.fromtimestamp(int(i['timestamp'])).strftime('%d/%m/%Y')))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
@@ -76,7 +76,7 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     values = []
     for i in fatalPoliceShootings:
         cit_id = city_id[ i['city'] ]
-        time = datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp()
+        time = str(i['date'])
         causeOfDeath = i['manner_of_death']
         state = i['state']
         values.append((time, causeOfDeath, state, cit_id))
@@ -127,18 +127,19 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
         values.append((time, sex, age, race, cause, cit_id))
 
     args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
-#insertToOffenses(crimes)
-#insertToCities(fatalPoliceShootings, drugRelatedDeaths)
+insertToOffenses(crimes)
+insertToCities(fatalPoliceShootings, drugRelatedDeaths)
 city_id = helper_functions.getIds('cities', cursor)
-#offense_id = helper_functions.getIds('offenses', cursor)
+offense_id = helper_functions.getIds('offenses', cursor)
 
-#insertToMoons(moons)
-#insertToCrimes(crimes, offense_id)
-#insertToEmergencyCalls(emergencyCalls)
-#insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
+insertToMoons(moons)
+insertToCrimes(crimes, offense_id)
+insertToEmergencyCalls(emergencyCalls)
+insertToDrugRelatedDeaths(drugRelatedDeaths, city_id)
 insertToFatalPoliceShootings(fatalPoliceShootings, city_id)
 
 conn.commit()

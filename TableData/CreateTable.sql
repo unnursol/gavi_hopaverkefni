@@ -26,7 +26,7 @@ create table crimes (
 
 create table emergencyCalls (
 	id serial,
-	time timestamp,
+	time timestamp(6),
 	address varchar(250),
 	primary key (id)
 );
