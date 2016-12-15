@@ -1,94 +1,97 @@
+import datetime
 import csv
 import psycopg2
 import getpass
 import datetime
+import connection
 
-def readFromFile(filename):
-    file = open(filename)
-    dataStoreage = csv.DictReader(file)
-    data = []
-    for x in dataStoreage:
-    	data.append(x)
-    file.close()
-    return data
-
-def connectToDatabase():
-    host = 'localhost'
-    dbname = input('Database name: ')
-    username = input('User name for {}.{}: '.format(host,dbname))
-
-    #pw = getpass.getpass()
-    pw = input('pw: ')
-
-    conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(host, dbname, username, pw)
-
-    print("Connecting to database {}.{} as {}".format(host, dbname, username))
-
-    try:
-        conn = psycopg2.connect(conn_string)
-    except psycopg2.OperationalError as e:
-        print('Connection failed!')
-        print('Error message:', e)
-        exit()
-
-    cursor = conn.cursor()
-    print("Connected!\n")
-
-    return cursor, conn
-
-cursor, conn = connectToDatabase()
-sunAndMoon = readFromFile('moon-phases-1970-2015-America_New_York.csv')
-crimes = readFromFile('Crimes_-_2001_to_present.csv')
-emergencyCalls = readFromFile('911.csv')
-fatalPoliceShootings = readFromFile('fatal_police_shootings.csv')
-drugRelatedDeaths = readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
+cursor, conn = connection.connectToDatabase()
+sunAndMoon = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
+crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
+emergencyCalls = connection.readFromFile('911.csv')
+fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
+drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
 
 print(crimes[0])
 print(emergencyCalls[0])
-
-#----------------------------------------------------------------------------
-#                              Moon Phases
-#----------------------------------------------------------------------------
-insertstring = "insert into moons (phase, time) values "
-values = []
-for i in sunAndMoon:
-    values.append((i['phase'], i['timestamp']))
-
-args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-cursor.execute(insertstring + args_str.decode('utf-8'))
+#
+# #----------------------------------------------------------------------------
+# #                              Moon Phases
+# #----------------------------------------------------------------------------
+# insertstring = "insert into moons (phase, time) values "
+# values = []
+# for i in sunAndMoon:
+#     values.append((i['phase'], i['timestamp']))
+#
+# args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+# cursor.execute(insertstring + args_str.decode('utf-8'))
 
 #----------------------------------------------------------------------------
 #                                 Crimes
 #----------------------------------------------------------------------------
-insertstring = "insert into crimes (time, offense) values "
-valuesCrimes = []
-valuesOffenses = []
+
 #-------------------------------  Offenses ----------------------------------
-
+insertstring = "insert into offenses(offense) values (%s);"
+offenses = set()
 for i in crimes:
-    valuesCrimes.append((int(datetime.datetime.strptime(i['Date'], "%m/%d/%Y %I:%M:%S %p").timestamp()), i['Primary Type']))
+    offenses.add(i['Primary Type'])
 
-args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-cursor.execute(insertstring + args_str.decode('utf-8'))
+print(offenses[0])
+print(offenses[-1])
+# for i in offenses
+#    cursor.execute(insertstring, [i])
+# conn.commit()
+#
+# select = "select * from offenses;"
+# cursor.execute(select)
+# records = cursor.fetchall()
+#
+# offense_id = {}
+# for i in records:
+#     offense_id[i[1]] = i[0]
+#
+# insertstring = "insert into crimes (time, offense_id, method) values"
+# values = []
+# for i in crimes:
+#     off_id = offense_id[ i['Primary Type'] ]
+#     for key, value in i.items():
+#         if not key == 'Primary Type':
+#             method = i['method']
+#             time = int(datetime.datetime.strptime(i['Date'], "%m/%d/%Y %I:%M:%S %p").timestamp())
+#             values.append((time, off_id, method))
+#
+# args_str = b','.join(cursor.mogrify("(%s,%s, %s)", x) for x in values)
+# cursor.execute(insertstring + args_str.decode('utf-8'))
 
-#----------------------------------------------------------------------------
-#                                911 calls
-#----------------------------------------------------------------------------
-insertstring = "insert into emergencyCalls (time, address) values "
-values = []
-for i in emergencyCalls:
-    values.append((int(datetime.datetime.strptime(i['timeStamp'], "%Y-%m-%d %H:%M:%S").timestamp()), i['addr'] ))
-args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-cursor.execute(insertstring + args_str.decode('utf-8'))
-
-#----------------------------------------------------------------------------
-#                           Fatal police shootings
-#----------------------------------------------------------------------------
-
-
-#----------------------------------------------------------------------------
-#                             Drug related deaths
-#----------------------------------------------------------------------------
+# #----------------------------------------------------------------------------
+# #                                911 calls
+# #----------------------------------------------------------------------------
+# insertstring = "insert into emergencyCalls (time, address) values "
+# values = []
+# for i in emergencyCalls:
+#     values.append((int(datetime.datetime.strptime(i['timeStamp'], "%Y-%m-%d %H:%M:%S").timestamp()), i['addr'] ))
+# args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+# cursor.execute(insertstring + args_str.decode('utf-8'))
+#
+# #----------------------------------------------------------------------------
+# #                           Fatal police shootings
+# #----------------------------------------------------------------------------
+# insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city) values "
+# values = []
+# for i in fatalPoliceShootings:
+#     outfile.write("insert into fatalPoliceShootings (time, causeOfDeath, state, city) values ({}, '{}', '{}', '{}');\n".format(int(datetime.datetime.strptime(i['date'], "%Y-%m-%d").timestamp()), i['manner_of_death'], i['state'], i['city'] ))
+#
+# #----------------------------------------------------------------------------
+# #                             Drug related deaths
+# #----------------------------------------------------------------------------
+# for i in drugRelatedDeaths:
+# 	if i['Date'] is '':
+# 		drugRelatedDeaths.remove(i)
+#
+# insertstring = "insert into drugDeaths (time, sex, age, race, cause, deathcity) values "
+# values = []
+# for i in drugRelatedDeaths:
+# 	outfile.write("insert into drugDeaths (time, sex, age, race, cause, deathcity) values ('{}', '{}', '{}', '{}', '{}', '{}');\n".format(str(i['Date']), i['Sex'], i['Age'], i['Race'], i['ImmediateCauseA'], i['Death City']))
 
 conn.commit()
 cursor.close()

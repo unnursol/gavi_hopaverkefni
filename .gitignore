@@ -94,3 +94,4 @@ TableData/*.sql
 
 #CSV files
 CSV/*
+TableData/*.csv

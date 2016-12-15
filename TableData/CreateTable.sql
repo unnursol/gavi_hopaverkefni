@@ -1,3 +1,15 @@
+create table offenses (
+	id serial,
+	offense varchar(250),
+	primary key (id)
+);
+
+create table cities (
+	id serial,
+	city varchar(250),
+	primary key (id)
+);
+
 create table moons (
 	id serial,
 	phase varchar (250),
@@ -38,16 +50,4 @@ create table drugDeaths (
     cause varchar(250),
     city_id int references cities(id),
     primary key (id)
-);
-
-create table offenses (
-	id serial,
-	offense varchar(250),
-	primary key (id)
-);
-
-create table cities (
-	id serial,
-	city varchar(250),
-	primary key (id)
 );
