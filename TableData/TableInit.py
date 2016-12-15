@@ -6,8 +6,9 @@ cursor, conn = connection.connectToDatabase()
 #moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
 #crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
 emergencyCalls = connection.readFromFile('911.csv')
-fatalPoliceShootings = connection.readFromFile('fatal_police_shootings.csv')
+fatalPoliceShootings = connection.readFromFile('database.csv')
 drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__2012-_June_2016.csv')
+
 
 
 #----------------------------------------------------------------------------
@@ -41,6 +42,7 @@ def insertToCrimes(crimes, offense_id):
         values.append((time, off_id))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
@@ -62,7 +64,7 @@ def insertToEmergencyCalls(emergencyCalls):
     insertstring = "insert into emergencyCalls (time, address) values "
     values = []
     for i in emergencyCalls:
-        values.append((str(i['timeStamp']).replace('-', '/').split()[0], i['addr'] ))
+        values.append((str(i['timeStamp']).replace('-', '/').split()[0], i['addr']))
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
