@@ -1,6 +1,9 @@
-# gavi_hopaverkefni
+# Gagnavinnsla Hópaverkefni - Fullt tungl#
+#### *Auður, Jóhanna, Sigrún og Unnur* ####
 
+![picture alt](http://www.wheniscalendars.com/wp-content/uploads/2015/05/Full-Moon.jpg "Full Moon")
 
+### Gögnin okkar í CSV skrám
 * Accidental drug related deaths 2012-2015
   https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015
 
