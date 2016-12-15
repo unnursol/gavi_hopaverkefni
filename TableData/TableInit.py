@@ -55,7 +55,7 @@ def insertToCrimes(crimes):
     for i in crimes:
         off_id = offense_id[ i['Primary Type'] ]
         method = 'method'
-        time = str(i['Date']).replace('-', '/').split()[0])
+        time = str(i['Date'].replace('-', '/').split()[0])
         values.append((time, off_id, method))
 
     args_str = b','.join(cursor.mogrify("(%s,%s,%s)", x) for x in values)
