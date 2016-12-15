@@ -42,6 +42,7 @@ def insertToCrimes(crimes, offense_id):
         values.append((time, off_id))
 
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
@@ -63,7 +64,7 @@ def insertToEmergencyCalls(emergencyCalls):
     insertstring = "insert into emergencyCalls (time, address) values "
     values = []
     for i in emergencyCalls:
-        values.append(str(i['timeStamp']).replace('-', '/').split()[0], i['addr'] )
+        values.append((str(i['timeStamp']).replace('-', '/').split()[0], i['addr']))
     args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
     cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
