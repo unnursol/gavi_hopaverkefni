@@ -3,7 +3,7 @@
 
 ![picture alt](http://www.wheniscalendars.com/wp-content/uploads/2015/05/Full-Moon.jpg "Full Moon")
 
-### Gögnin okkar 
+### Gögnin okkar ###
 * Accidental drug related deaths 2012-2015
   https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015
 
@@ -24,3 +24,7 @@
   
 * Fatal police shootings
   https://www.kaggle.com/washingtonpost/police-shootings
+
+### Leiðbeiningar ###
+* CreateTable.sql inniheldur SQL fyrirspurnir sem býr til töflur fyrir gagnagrunninn okkar
+* TableInit.py sér um alla innsetningu gagna frá csv skrám. TableInit notar hjálparskrárnar Connection.py, InsertFunctions.py og HelperFunctions.py
