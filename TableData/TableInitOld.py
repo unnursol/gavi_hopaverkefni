@@ -4,6 +4,7 @@ from HelperFunctions import fixTitle
 from HelperFunctions import fixOffense
 import HelperFunctions
 
+
 cursor, conn = connection.connectToDatabase()
 moons = connection.readFromFile('moon-phases-1970-2015-America_New_York.csv')
 crimes = connection.readFromFile('Crimes_-_2001_to_present.csv')
@@ -18,26 +19,12 @@ drugRelatedDeaths = connection.readFromFile('Accidental_Drug_Related_Deaths__201
 def insertToMoons(sunAndMoon):
     insertstring = "insert into moons (phase, time) values "
     values = []
-    numberofrowstoinsert = 2000
-    counter = 0
     for i in sunAndMoon:
         values.append((i['phase'], datetime.datetime.fromtimestamp(int(i['timestamp'])).strftime('%d/%m/%Y')))
-        counter += 1
 
-        if counter == numberofrowstoinsert:
-            args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-            cursor.execute('SET datestyle = dmy')
-            cursor.execute(insertstring + args_str.decode('utf-8'))
-            values = []
-            counter = 0
-
-    if len(values) > 0:
-        args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-        cursor.execute('SET datestyle = dmy')
-        cursor.execute(insertstring + args_str.decode('utf-8'))
-        values = []
-        counter = 0
-
+    args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
+    cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
 #----------------------------------------------------------------------------
@@ -46,8 +33,6 @@ def insertToMoons(sunAndMoon):
 def insertToCrimes(crimes, offense_id):
     insertstring = "insert into crimes (time, offense_id) values"
     values = []
-    numberofrowstoinsert = 2000
-    counter = 0
     for i in crimes:
         tmp = fixOffense(i['Primary Type'])
         off_id = offense_id[ tmp ]
@@ -58,27 +43,15 @@ def insertToCrimes(crimes, offense_id):
         newDate.append(date[2])
         time = '/'.join(newDate)
         values.append((time, off_id))
-        counter += 1
 
-        if counter == numberofrowstoinsert:
-            args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-            cursor.execute('SET datestyle = dmy')
-            cursor.execute(insertstring + args_str.decode('utf-8'))
-            values = []
-            counter = 0
-
-    if len(values) > 0:
-        args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-        cursor.execute('SET datestyle = dmy')
-        cursor.execute(insertstring + args_str.decode('utf-8'))
-        values = []
-        counter = 0
-
+    args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
+    cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
 #-------------------------------  Offenses ----------------------------------
 def insertToOffenses(crimes):
-    insertstring = "insert into offenses (offense) values (%s);"
+    insertstring = "insert into offenses(offense) values (%s);"
     offenses = set()
     for i in crimes:
         tmp = fixOffense(i['Primary Type'])
@@ -94,24 +67,10 @@ def insertToOffenses(crimes):
 def insertToEmergencyCalls(emergencyCalls):
     insertstring = "insert into emergencyCalls (time, address) values "
     values = []
-    numberofrowstoinsert = 2000
-    counter = 0
     for i in emergencyCalls:
         values.append((str(i['timeStamp']).replace('-', '/').split()[0], i['addr']))
-        counter += 1
-
-        if counter == numberofrowstoinsert:
-            args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-            cursor.execute(insertstring + args_str.decode('utf-8'))
-            values = []
-            counter = 0
-
-    if len(values) > 0:
-        args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
-        cursor.execute(insertstring + args_str.decode('utf-8'))
-        values = []
-        counter = 0
-
+    args_str = b','.join(cursor.mogrify("(%s,%s)", x) for x in values)
+    cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
 #----------------------------------------------------------------------------
@@ -120,8 +79,6 @@ def insertToEmergencyCalls(emergencyCalls):
 def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city_id) values "
     values = []
-    numberofrowstoinsert = 2000
-    counter = 0
     for i in fatalPoliceShootings:
         tmp  = fixTitle(i['city'])
         cit_id = city_id[ tmp ]
@@ -129,20 +86,9 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
         causeOfDeath = i['manner_of_death']
         state = i['state']
         values.append((time, causeOfDeath, state, cit_id))
-        counter += 1
 
-        if counter == numberofrowstoinsert:
-            args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s)", x) for x in values)
-            cursor.execute(insertstring + args_str.decode('utf-8'))
-            values = []
-            counter = 0
-
-    if len(values) > 0:
-        args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s)", x) for x in values)
-        cursor.execute(insertstring + args_str.decode('utf-8'))
-        values = []
-        counter = 0
-
+    args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s)", x) for x in values)
+    cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
 #-------------------------------- Cities ------------------------------------
@@ -174,8 +120,6 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
 
     insertstring = "insert into drugDeaths (time, sex, age, race, cause, city_id) values "
     values = []
-    numberofrowstoinsert = 2000
-    counter = 0
     for i in drugRelatedDeaths:
         date = str(i['Date']).split('/')
         newDate = []
@@ -190,22 +134,10 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
         race = i['Race']
         cause = fixTitle(i['ImmediateCauseA'])
         values.append((time, sex, age, race, cause, cit_id))
-        counter += 1
 
-        if counter == numberofrowstoinsert:
-            args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)
-            cursor.execute('SET datestyle = dmy')
-            cursor.execute(insertstring + args_str.decode('utf-8'))
-            values = []
-            counter = 0
-
-    if len(values) > 0:
-        args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)
-        cursor.execute('SET datestyle = dmy')
-        cursor.execute(insertstring + args_str.decode('utf-8'))
-        values = []
-        counter = 0
-
+    args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)
+    cursor.execute('SET datestyle = dmy')
+    cursor.execute(insertstring + args_str.decode('utf-8'))
     conn.commit()
 
 insertToOffenses(crimes)
