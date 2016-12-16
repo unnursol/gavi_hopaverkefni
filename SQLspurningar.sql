@@ -307,3 +307,45 @@ select (select count(time)
         where drugdeaths.time in (select time
                                    from moons
                                    where moons.phase = 'Last Quarter')) as "Last Quarter";
+
+--------------------------------------------------------------------------------
+--                TOP 3 Borgir með flest dauðsföll af völdum lögreglu
+select cities.city, count(fatalpoliceshootings.time)
+from cities, fatalpoliceshootings
+where cities.id = fatalpoliceshootings.city_id
+group by cities.city
+order by count(fatalpoliceshootings.time) desc
+limit 3;
+
+--------------------------------------------------------------------------------
+--            TOP 3 Borgir með flest dauðsföll af völdum eiturlyfja
+select cities.city, count(drugdeaths.time)
+from cities, drugdeaths
+where cities.id = drugdeaths.city_id
+group by cities.city
+order by count(drugdeaths.time) desc
+limit 3;
+
+--------------------------------------------------------------------------------
+--      Hvaða borgir voru bæði með dauðsföll af völdum lögreglu og eiturlyfja
+select cities.city, count(fatalpoliceshootings.time) as "Fatal Deaths", count(drugdeaths.time) as "Drug Deaths"
+from cities, fatalpoliceshootings, drugdeaths
+where cities.id = fatalpoliceshootings.city_id
+and cities.id = drugdeaths.city_id
+group by cities.city
+
+--------------------------------------------------------------------------------
+--         Borgir með fjölda dauðsfalla af völdum lögreglu og eiturlyja
+select cities.city, drugdeath.count as "Drugdeaths", policedeaths.count as "Policedeaths"
+from cities, (select count(drugdeaths.time), cities.city
+        from cities, drugdeaths
+        where drugdeaths.city_id = cities.id
+        group by cities.city) as drugdeath
+  full join
+        (select count(fatalpoliceshootings.time), cities.city
+        from cities, fatalpoliceshootings
+        where fatalpoliceshootings.city_id = cities.id
+        group by cities.city) as policedeaths
+on drugdeath.city = policedeaths.city
+where cities.city = policedeaths.city or cities.city = drugdeath.city
+group by cities.city, drugdeath.count, policedeaths.count;
