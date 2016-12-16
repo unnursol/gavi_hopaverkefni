@@ -18,9 +18,12 @@ def fatalPoliceShootingsData():
 	cursor.execute("select (select count(*) from fatalpoliceshootings where fatalpoliceshootings.time in (select time from moons where moons.phase = 'Full Moon')) as \"Full Moon\", (Select count(*) from fatalpoliceshootings where fatalpoliceshootings.time in (select time from moons where moons.phase = 'New Moon')) as \"New Moon\", (Select count(*) from fatalpoliceshootings where fatalpoliceshootings.time in (select time from moons where moons.phase = 'First Quarter')) as \"First Quarter\", (Select count(*) from fatalpoliceshootings where fatalpoliceshootings.time in (select time from moons where moons.phase = 'Last Quarter')) as \"Last Quarter\";")
 	results = cursor.fetchall()
 	return results
-def 
-SELECT avg(offense_id), offense FROM crimes, offenses WHERE offenses.id = crimes.offense_id AND crimes.time in (SELECT time FROM moons WHERE phase LIKE 'Full Moon') GROUP BY offenses.offense;
-SELECT avg(offense_id), offense FROM crimes, offenses WHERE offenses.id = crimes.offense_id GROUP BY offenses.offense;
+
+def drugDeathsData():
+	cursor.execute("select (select count(*) from drugdeaths where drugdeaths.time in (select time from moons where moons.phase = 'Full Moon')) as \"Full Moon\", (Select count(*) from drugdeaths where drugdeaths.time in (select time from moons where moons.phase = 'New Moon')) as \"New Moon\", (Select count(*) from drugdeaths where drugdeaths.time in (select time from moons where moons.phase = 'First Quarter')) as \"First Quarter\", (Select count(*) from drugdeaths where drugdeaths.time in (select time from moons where moons.phase = 'Last Quarter')) as \"Last Quarter\";")
+	results = cursor.fetchall()
+	return results
+
 
 results = emergencyCallsData()
 data = [go.Bar(
@@ -41,5 +44,12 @@ data = [go.Bar(
     x=['Full Moon', 'New Moon', 'First Quarter', 'Last Quarter'],
     y=[results[0][0], results[0][1], results[0][2], results[0][3]]
 )]
-py.iplot(data, filename='Fatal police shootings')
+#py.iplot(data, filename='Fatal police shootings')
+
+results = drugDeathsData()
+data = [go.Bar(
+    x=['Full Moon', 'New Moon', 'First Quarter', 'Last Quarter'],
+    y=[results[0][0], results[0][1], results[0][2], results[0][3]]
+)]
+py.iplot(data, filename='Drug related deaths')
 
