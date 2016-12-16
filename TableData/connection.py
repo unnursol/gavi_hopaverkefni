@@ -20,7 +20,7 @@ def connectToDatabase():
     host = 'localhost'
     #dbname = input('Database name: ')
     #username = input('User name for {}.{}: '.format(host,dbname))
-    dbname = 'moonproject'
+    dbname = 'moondata'
     username = 'postgres'
     pw = 'postgres'
 
