@@ -33,7 +33,7 @@ where time not in (select time
 
 --------------------------------------------------------------------------------
 --              Fjöldi glæpa á phasei raðað í stærðarröð
-select offense, count(offense_id)
+select offense, count(offense_id)/186
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time in (select time
@@ -41,8 +41,8 @@ and crimes.time in (select time
                     where phase like 'Full Moon')
 group by offenses.offense
 order by count(offense_id) desc;
---venjulegur dagur:
-select offense, count(offense_id)/28
+--Fyrir 1 venjulegan dag:
+select offense, count(offense_id)/5036
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
@@ -52,8 +52,7 @@ group by offenses.offense
 order by count(offense_id) desc;
 
 
-
-select offense, count(offense_id)
+select offense, count(offense_id)/186
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time in (select time
@@ -61,8 +60,8 @@ and crimes.time in (select time
                     where phase like 'New Moon')
 group by offenses.offense
 order by count(offense_id) desc;
---venjulegur dagur:
-select offense, count(offense_id)/28
+--Fyrir 1 venjulegan dag:
+select offense, count(offense_id)/5036
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
@@ -72,8 +71,7 @@ group by offenses.offense
 order by count(offense_id) desc;
 
 
-
-select offense, count(offense_id)
+select offense, count(offense_id)/186
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time in (select time
@@ -81,8 +79,8 @@ and crimes.time in (select time
                     where phase like 'First Quarter')
 group by offenses.offense
 order by count(offense_id) desc;
---venjulegur dagur:
-select offense, count(offense_id)/28
+--Fyrir 1 venjulegan dag:
+select offense, count(offense_id)/5036
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
@@ -91,7 +89,8 @@ and crimes.time not in (select time
 group by offenses.offense
 order by count(offense_id) desc;
 
-select offense, count(offense_id)
+
+select offense, count(offense_id)/186
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time in (select time
@@ -99,8 +98,8 @@ and crimes.time in (select time
                     where phase like 'Last Quarter')
 group by offenses.offense
 order by count(offense_id) desc;
---venjulegur dagur:
-select offense, count(offense_id)/28
+--Fyrir 1 venjulegan dag:
+select offense, count(offense_id)/5036
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
