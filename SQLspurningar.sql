@@ -42,7 +42,7 @@ and crimes.time in (select time
 group by offenses.offense
 order by count(offense_id) desc;
 --Fyrir 1 venjulegan dag:
-select offense, count(offense_id)/5036
+select offense, count(offense_id)/5401
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
@@ -61,7 +61,7 @@ and crimes.time in (select time
 group by offenses.offense
 order by count(offense_id) desc;
 --Fyrir 1 venjulegan dag:
-select offense, count(offense_id)/5036
+select offense, count(offense_id)/5401
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
@@ -80,7 +80,7 @@ and crimes.time in (select time
 group by offenses.offense
 order by count(offense_id) desc;
 --Fyrir 1 venjulegan dag:
-select offense, count(offense_id)/5036
+select offense, count(offense_id)/5401
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
@@ -99,7 +99,7 @@ and crimes.time in (select time
 group by offenses.offense
 order by count(offense_id) desc;
 --Fyrir 1 venjulegan dag:
-select offense, count(offense_id)/5036
+select offense, count(offense_id)/5401
 from crimes, offenses
 where offenses.id = crimes.offense_id
 and crimes.time not in (select time
