@@ -20,5 +20,10 @@
   https://www.kaggle.com/washingtonpost/police-shootings
 
 ### Leiðbeiningar ###
+#### ./TableData ####
 * CreateTable.sql inniheldur SQL fyrirspurnir sem býr til töflur fyrir gagnagrunninn okkar
 * TableInit.py sér um alla innsetningu gagna frá csv skrám. TableInit notar hjálparskrárnar Connection.py, InsertFunctions.py og HelperFunctions.py
+
+#### ./DataAccess ####
+* SQL fyrirspurnir fyrir rannsóknarvinnuna. 
+* Skipanir fyrir birtingu gagna (notuðum python safnið Plotly)
