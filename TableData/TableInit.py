@@ -1,6 +1,7 @@
 import datetime
 import connection
-from HelperFunctions import fixCities
+from HelperFunctions import fixTitle
+from HelperFunctions import fixOffense
 import HelperFunctions
 
 
@@ -33,7 +34,8 @@ def insertToCrimes(crimes, offense_id):
     insertstring = "insert into crimes (time, offense_id) values"
     values = []
     for i in crimes:
-        off_id = offense_id[ i['Primary Type'] ]
+        tmp = fixOffense(i['Primary Type'])
+        off_id = offense_id[ tmp ]
         date = str(i['Date']).split()[0].split('/')
         newDate = []
         newDate.append(date[1])
@@ -52,7 +54,8 @@ def insertToOffenses(crimes):
     insertstring = "insert into offenses(offense) values (%s);"
     offenses = set()
     for i in crimes:
-        offenses.add(i['Primary Type'])
+        tmp = fixOffense(i['Primary Type'])
+        offenses.add(tmp)
     list(offenses)
     for i in offenses:
         cursor.execute(insertstring, [i])
@@ -77,7 +80,7 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     insertstring = "insert into fatalPoliceShootings (time, causeOfDeath, state, city_id) values "
     values = []
     for i in fatalPoliceShootings:
-        tmp  = fixCities(i['city'])
+        tmp  = fixTitle(i['city'])
         cit_id = city_id[ tmp ]
         time = str(i['date'])
         causeOfDeath = i['manner_of_death']
@@ -93,10 +96,10 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeath):
     insertstring = "insert into cities(city) values (%s);"
     cities = set()
     for i in fatalPoliceShootings:
-        tmp  = fixCities(i['city'])
+        tmp  = fixTitle(i['city'])
         cities.add(tmp)
     for i in drugRelatedDeath:
-        tmp  = fixCities(i['Death City'])
+        tmp  = fixTitle(i['Death City'])
         cities.add(tmp)
 
     list(cities)
@@ -124,12 +127,12 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
         newDate.append(date[0])
         newDate.append(date[2])
         time = '/'.join(newDate)
-        tmp  = fixCities(i['Death City'])
+        tmp  = fixTitle(i['Death City'])
         cit_id = city_id[ tmp ]
         sex = i['Sex']
         age = i['Age']
         race = i['Race']
-        cause = i['ImmediateCauseA']
+        cause = fixTitle(i['ImmediateCauseA'])
         values.append((time, sex, age, race, cause, cit_id))
 
     args_str = b','.join(cursor.mogrify("(%s,%s,%s,%s,%s,%s)", x) for x in values)

@@ -1,6 +1,6 @@
 import datetime
 import connection
-from HelperFunctions import fixCities
+from HelperFunctions import fixTitle
 from HelperFunctions import fixOffense
 import HelperFunctions
 
@@ -123,7 +123,7 @@ def insertToFatalPoliceShootings(fatalPoliceShootings, city_id):
     numberofrowstoinsert = 2000
     counter = 0
     for i in fatalPoliceShootings:
-        tmp  = fixCities(i['city'])
+        tmp  = fixTitle(i['city'])
         cit_id = city_id[ tmp ]
         time = str(i['date'])
         causeOfDeath = i['manner_of_death']
@@ -150,10 +150,10 @@ def insertToCities(fatalPoliceShootings, drugRelatedDeath):
     insertstring = "insert into cities(city) values (%s);"
     cities = set()
     for i in fatalPoliceShootings:
-        tmp  = fixCities(i['city'])
+        tmp  = fixTitle(i['city'])
         cities.add(tmp)
     for i in drugRelatedDeath:
-        tmp  = fixCities(i['Death City'])
+        tmp  = fixTitle(i['Death City'])
         cities.add(tmp)
 
     list(cities)
@@ -183,12 +183,12 @@ def insertToDrugRelatedDeaths(drugRelatedDeaths, city_id):
         newDate.append(date[0])
         newDate.append(date[2])
         time = '/'.join(newDate)
-        tmp  = fixCities(i['Death City'])
+        tmp  = fixTitle(i['Death City'])
         cit_id = city_id[ tmp ]
         sex = i['Sex']
         age = i['Age']
         race = i['Race']
-        cause = i['ImmediateCauseA']
+        cause = fixTitle(i['ImmediateCauseA'])
         values.append((time, sex, age, race, cause, cit_id))
         counter += 1
 
