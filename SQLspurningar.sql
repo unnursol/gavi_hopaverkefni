@@ -205,12 +205,12 @@ select (select count(sex)
         where lower(sex) like 'female') as "Female Deaths overall";
 
 
--- Hversu margir dóu af hvaða orsaki af völdum eiturlyfja
+-- Hversu margir dóu af hvaða orsök af völdum eiturlyfja
 select count(cause), cause
 from drugdeaths
 where time in (select time
                from moons
-               where moons.phase = 'Full Moon')
+               where phase = 'Full Moon')
 group by cause
 order by count(cause) desc;
 
@@ -219,7 +219,7 @@ select count(cause), cause
 from drugdeaths
 where time in (select time
                from moons
-               where moons.phase = 'New Moon')
+               where phase = 'New Moon')
 group by cause
 order by count(cause) desc;
 
