@@ -92,6 +92,8 @@ ENV/
 TableData/*.sql
 !TableData/CreateTable.sql
 !TableData/selectCommands.sql
+!TableData/SQLspurningar.sql
+
 #CSV files
 CSV/*
 TableData/*.csv

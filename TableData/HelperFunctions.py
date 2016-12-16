@@ -9,5 +9,8 @@ def getIds (table, cursor):
         id_dict[i[1]] = i[0]
     return id_dict
 
-def fixCities (s):
-    return s.lower().title();
+def fixTitle (s):
+    return s.lower().title()
+
+def fixOffense (s):
+    return s.replace(' - ', '-')
