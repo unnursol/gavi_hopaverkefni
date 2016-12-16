@@ -146,6 +146,34 @@ where time in (select time
                from moons
                where phase like 'Last Quarter')) as "Last Quarter";
 
+
+--BÚA TIL TÖFLU ÚR ÞESSU:
+select (select count(offense_id)/186
+from crimes
+where time in (select time
+              from moons
+              where phase like 'New Moon')) as "New Moon",
+(select count(offense_id)/186
+from crimes
+where time in (select time
+              from moons
+              where phase like 'Full Moon')) as "Full Moon",
+(select count(offense_id)/186
+from crimes
+where time in (select time
+              from moons
+              where phase like 'First Quarter')) as "First Quarter",
+(select count(offense_id)/186
+from crimes
+where time in (select time
+              from moons
+              where phase like 'Last Quarter')) as "Last Quarter",
+(select count(offense_id)/5401
+from crimes
+where time not in (select time
+              from moons
+              where phase like 'New Moon')) as "Normal Day";
+
 --Count þegar það er ekki fullt, nýtt eða hálft tungl (hægt að taka síðan hvað sem er í burtu)
 select count(offense_id)
 from crimes
