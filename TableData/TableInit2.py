@@ -1,6 +1,7 @@
 import datetime
 import connection
 from HelperFunctions import fixCities
+from HelperFunctions import fixOffense
 import HelperFunctions
 
 cursor, conn = connection.connectToDatabase()
@@ -48,7 +49,8 @@ def insertToCrimes(crimes, offense_id):
     numberofrowstoinsert = 2000
     counter = 0
     for i in crimes:
-        off_id = offense_id[ i['Primary Type'] ]
+        tmp = fixOffense(i['Primary Type'])
+        off_id = offense_id[ tmp ]
         date = str(i['Date']).split()[0].split('/')
         newDate = []
         newDate.append(date[1])
@@ -79,7 +81,8 @@ def insertToOffenses(crimes):
     insertstring = "insert into offenses (offense) values (%s);"
     offenses = set()
     for i in crimes:
-        offenses.add(i['Primary Type'])
+        tmp = fixOffense(i['Primary Type'])
+        offenses.add(tmp)
     list(offenses)
     for i in offenses:
         cursor.execute(insertstring, [i])

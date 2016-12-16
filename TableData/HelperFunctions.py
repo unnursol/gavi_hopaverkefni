@@ -10,4 +10,7 @@ def getIds (table, cursor):
     return id_dict
 
 def fixCities (s):
-    return s.lower().title();
+    return s.lower().title()
+
+def fixOffense (s):
+    return s.replace(' - ', '-')
